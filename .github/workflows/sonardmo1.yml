@@ -1,0 +1,22 @@
+name: code coverage workflow using Sonarqube
+on:
+  push:
+jobs:
+  job_sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkot the code
+        uses: actions/checkout@v7
+      - name: Install Java
+        uses: action/setup-java@v6
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Code coverage using Sonar
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey= sonarqube-actions-demo_sonarqube-actions-project -Dsonar.organization= sonarqube-actions-demo -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN
+env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       # GITHUB_TOKEN: Automatically generated token for GitHub API authentication (with limited scope).
+       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+
+          
